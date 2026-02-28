@@ -1,0 +1,295 @@
+@import "tailwindcss";
+
+/* ============================================================
+   ENCHANTED STYLE — Global Theme
+   Dark obsidian glamour palette
+   ============================================================ */
+
+@theme inline {
+  /* Brand Colors */
+  --color-obsidian:    #0a0a0a;
+  --color-surface:     #111111;
+  --color-card:        #161616;
+  --color-border:      #2a2a2a;
+  --color-gold:        #c9a84c;
+  --color-gold-light:  #f0d060;
+  --color-gold-muted:  #9a7a35;
+  --color-white:       #ffffff;
+  --color-muted:       #888888;
+  --color-subtle:      #555555;
+
+  /* Semantic */
+  --color-background:  var(--color-obsidian);
+  --color-foreground:  var(--color-white);
+
+  /* Fonts */
+  --font-display: var(--font-playfair);
+  --font-sans:    var(--font-dm-sans);
+}
+
+/* ============================================================
+   BASE RESET
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #ffffff;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: none; /* Custom cursor overrides */
+  overflow-x: hidden;
+}
+
+/* Hide scrollbar but keep functionality */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #c9a84c44;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c9a84c;
+}
+
+/* Selection */
+::selection {
+  background: #c9a84c33;
+  color: #f0d060;
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+
+.font-display {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+
+/* ============================================================
+   CUSTOM CURSOR
+   ============================================================ */
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: #c9a84c;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.05s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  mix-blend-mode: difference;
+}
+
+.cursor-ring {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid #c9a84c88;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.12s ease, width 0.25s ease, height 0.25s ease, border-color 0.25s ease;
+}
+
+.cursor-dot.hovered {
+  width: 12px;
+  height: 12px;
+  background: #f0d060;
+}
+
+.cursor-ring.hovered {
+  width: 52px;
+  height: 52px;
+  border-color: #c9a84c;
+}
+
+/* ============================================================
+   WHATSAPP FLOATING BUTTON
+   ============================================================ */
+
+@keyframes wa-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.wa-pulse-ring {
+  animation: wa-pulse 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   NAVBAR GLASS EFFECT
+   ============================================================ */
+
+.nav-glass {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(10, 10, 10, 0.75);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.08);
+}
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* ============================================================
+   PRODUCT CARD — 3D Tilt + Shine
+   ============================================================ */
+
+.product-card-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.product-card-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0) 0%,
+    rgba(201, 168, 76, 0.15) 40%,
+    rgba(255,255,255,0.05) 50%,
+    rgba(255,255,255,0) 60%
+  );
+  background-size: 200% 200%;
+  background-position: 200% 200%;
+  opacity: 0;
+  transition: opacity 0.3s ease, background-position 0.6s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.product-card-inner:hover .product-card-shine {
+  opacity: 1;
+  background-position: -50% -50%;
+}
+
+/* ============================================================
+   CATEGORY FILTER PILLS
+   ============================================================ */
+
+.category-pill {
+  position: relative;
+  overflow: hidden;
+  transition: color 0.2s ease;
+}
+
+.category-pill::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #c9a84c;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.category-pill.active::after,
+.category-pill:hover::after {
+  transform: scaleX(1);
+}
+
+/* ============================================================
+   GOLD GRADIENT TEXT
+   ============================================================ */
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #c9a84c 0%, #f0d060 50%, #c9a84c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================
+   SECTION DIVIDERS
+   ============================================================ */
+
+.section-divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+  margin: 0 auto;
+}
+
+/* ============================================================
+   ADMIN SIDEBAR
+   ============================================================ */
+
+.admin-nav-item {
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.admin-nav-item.active {
+  background-color: rgba(201, 168, 76, 0.1);
+  color: #c9a84c;
+  border-left: 2px solid #c9a84c;
+}
+
+/* ============================================================
+   LOADING / SKELETON
+   ============================================================ */
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #161616 25%, #222222 50%, #161616 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ============================================================
+   SCROLL ANIMATIONS (handled by GSAP, but fallback)
+   ============================================================ */
+
+.reveal-item {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.reveal-item.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
