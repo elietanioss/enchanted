@@ -7,8 +7,9 @@ export default function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = useState(false)
 
-  // Mount flag — avoids SSR mismatch and Rules of Hooks violation
+  // Mount flag — avoids SSR mismatch and skip on touch/coarse-pointer devices
   useEffect(() => {
+    if (window.matchMedia('(pointer: coarse)').matches) return
     setMounted(true)
   }, [])
 
