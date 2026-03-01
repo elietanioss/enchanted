@@ -77,7 +77,7 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             {/* WhatsApp CTA (desktop) */}
             <a
-              href="https://wa.me/96181351084"
+              href={WHATSAPP_FLOAT_URL}
               target="_blank"
               rel="noopener noreferrer"
               data-hover
