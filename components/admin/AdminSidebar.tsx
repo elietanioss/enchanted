@@ -25,7 +25,7 @@ export default function AdminSidebar() {
     <aside className="w-64 min-h-screen bg-surface border-r border-border flex flex-col">
       {/* Logo */}
       <div className="p-6 border-b border-border">
-        <Logo className="h-8 w-auto object-contain" />
+        <Logo className="h-8 w-auto" />
         <p className="text-muted text-xs mt-1 tracking-widest uppercase">Admin Panel</p>
       </div>
 
