@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import { formatPrice } from '@/lib/utils'
 import { useCart } from '@/lib/cart-context'
 import type { Product } from '@/types'
+import ImageLightbox from '@/components/public/ImageLightbox'
 
 interface ProductCardProps {
   product: Product
@@ -15,6 +16,14 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [imgError, setImgError] = useState(false)
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
   const [added, setAdded] = useState(false)
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+
+  const allImages = [
+    ...(product.image_url ? [product.image_url] : []),
+    ...(product.additional_images ?? []),
+  ]
+  const hasGallery = allImages.length > 1
+
   const { addToCart, openCart } = useCart()
   const addedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -57,7 +66,10 @@ export default function ProductCard({ product }: ProductCardProps) {
         onMouseLeave={handleMouseLeave}
       >
         {/* Image section */}
-        <div className="relative h-64 overflow-hidden">
+        <div
+          className={`relative h-64 overflow-hidden ${hasGallery ? 'cursor-zoom-in' : ''}`}
+          onClick={hasGallery ? () => setLightboxIndex(0) : undefined}
+        >
           {!imgError && product.image_url ? (
             <Image
               src={product.image_url}
@@ -151,6 +163,15 @@ export default function ProductCard({ product }: ProductCardProps) {
           </button>
         </div>
       </div>
+
+      {lightboxIndex !== null && (
+        <ImageLightbox
+          images={allImages}
+          currentIndex={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          onNavigate={setLightboxIndex}
+        />
+      )}
     </div>
   )
 }
