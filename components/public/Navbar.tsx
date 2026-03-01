@@ -13,7 +13,6 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [imgError, setImgError] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const { totalItems, openCart } = useCart()
 
@@ -42,21 +41,11 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 lg:h-20">
           {/* LEFT: Logo */}
           <a href="/" className="flex-shrink-0" data-hover>
-            {!imgError ? (
-              <img
-                src="/logo.png"
-                alt="Enchanted Style"
-                className="h-10 w-auto object-contain"
-                onError={() => setImgError(true)}
-              />
-            ) : (
-              <span
-                className="font-display text-xl tracking-widest uppercase"
-                style={{ color: 'var(--color-gold, #c9a84c)' }}
-              >
-                ENCHANTED STYLE
-              </span>
-            )}
+            <img
+              src="/logo.svg"
+              alt="Enchanted Style"
+              className="h-9 w-auto object-contain"
+            />
           </a>
 
           {/* CENTER: Nav links (desktop only) */}
