@@ -27,44 +27,39 @@ export default function ImageLightbox({
     onNavigate(currentIndex === images.length - 1 ? 0 : currentIndex + 1)
   }, [currentIndex, images.length, onNavigate])
 
-  // Focus the dialog on mount so keyboard users don't need to tab to it
+  // Focus the dialog on mount so keyboard users land inside the overlay immediately
   useEffect(() => {
-    const el = dialogRef.current
-    if (!el) return
-    el.focus()
+    dialogRef.current?.focus()
   }, [])
-
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { onClose(); return }
-      if (e.key === 'ArrowLeft') { prev(); return }
-      if (e.key === 'ArrowRight') { next(); return }
-      // Focus trap: keep Tab/Shift-Tab within the dialog
-      if (e.key === 'Tab' && dialogRef.current) {
-        const focusable = Array.from(
-          dialogRef.current.querySelectorAll<HTMLElement>(
-            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-          )
-        ).filter(el => !el.hasAttribute('disabled'))
-        if (focusable.length === 0) return
-        const first = focusable[0]
-        const last = focusable[focusable.length - 1]
-        if (e.shiftKey) {
-          if (document.activeElement === first) { e.preventDefault(); last.focus() }
-        } else {
-          if (document.activeElement === last) { e.preventDefault(); first.focus() }
-        }
-      }
-    }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
-  }, [onClose, prev, next])
 
   // Lock body scroll
   useEffect(() => {
+    if (typeof document === 'undefined') return
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = '' }
   }, [])
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape') { onClose(); return }
+    if (e.key === 'ArrowLeft') { prev(); return }
+    if (e.key === 'ArrowRight') { next(); return }
+    // Focus trap: keep Tab/Shift-Tab within the dialog
+    if (e.key === 'Tab' && dialogRef.current) {
+      const focusable = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter(el => !el.hasAttribute('disabled'))
+      if (focusable.length === 0) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus() }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus() }
+      }
+    }
+  }, [onClose, prev, next])
 
   if (typeof document === 'undefined') return null
 
@@ -77,6 +72,7 @@ export default function ImageLightbox({
       tabIndex={-1}
       className="fixed inset-0 z-[80] bg-black/95 flex items-center justify-center outline-none"
       onClick={onClose}
+      onKeyDown={handleKeyDown}
     >
       {/* Image container — stop propagation so clicking image doesn't close */}
       <div
