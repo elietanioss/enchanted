@@ -1,5 +1,6 @@
 import Navbar from "@/components/public/Navbar"
 import Hero from "@/components/public/Hero"
+import NewArrivals from "@/components/public/NewArrivals"
 import ProductGrid from "@/components/public/ProductGrid"
 import Footer from "@/components/public/Footer"
 import CustomCursor from "@/components/public/CustomCursor"
@@ -41,6 +42,11 @@ export default async function HomePage() {
     categories = (dbCategories ?? []) as Category[]
   }
 
+  // 5 most recently added active products for New Arrivals
+  const newArrivals = [...products]
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    .slice(0, 5)
+
   return (
     <>
       <CustomCursor />
@@ -48,7 +54,7 @@ export default async function HomePage() {
 
       <main>
         <Hero />
-
+        <NewArrivals products={newArrivals} />
         <ProductGrid products={products} categories={categories} />
 
         {/* About section */}

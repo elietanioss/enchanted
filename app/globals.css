@@ -280,6 +280,18 @@ body {
 }
 
 /* ============================================================
+   SCROLLBAR HIDE UTILITY — used by CategoryFilter overflow scroll
+   ============================================================ */
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================================
    SCROLL ANIMATIONS (handled by GSAP, but fallback)
    ============================================================ */
 
@@ -292,4 +304,13 @@ body {
   opacity: 1;
   transform: translateY(0);
   transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Hide scrollbar for horizontal scroll containers */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
