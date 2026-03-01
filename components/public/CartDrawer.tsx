@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import Image from 'next/image'
-import { useCart } from '@/lib/cart-context'
+import { useCart, cartItemKey } from '@/lib/cart-context'
 import { buildCartOrderURL } from '@/lib/whatsapp'
 import { formatPrice } from '@/lib/utils'
 
@@ -81,7 +81,7 @@ export default function CartDrawer() {
           ) : (
             items.map(item => (
               <div
-                key={`${item.product.id}-${item.selectedSize ?? 'no-size'}`}
+                key={cartItemKey(item.product.id, item.selectedSize)}
                 className="flex gap-3 items-start pb-4 border-b border-[#2a2a2a] last:border-0"
               >
                 {/* Product image */}
@@ -158,7 +158,7 @@ export default function CartDrawer() {
           <div className="px-5 py-4 border-t border-[#2a2a2a] space-y-3">
             <div className="flex justify-between items-center">
               <span className="text-white/50 text-sm tracking-wide">Subtotal</span>
-              <span className="text-white font-medium">${subtotal.toFixed(2)}</span>
+              <span className="text-white font-medium">{formatPrice(subtotal)}</span>
             </div>
 
             <a
