@@ -24,7 +24,7 @@ export default function NewArrivals({ products }: NewArrivalsProps) {
       </div>
 
       {/* Horizontal scroll on mobile, grid on desktop */}
-      <div className="flex gap-4 overflow-x-auto pb-4 md:pb-0 md:grid md:grid-cols-3 lg:grid-cols-5 md:overflow-visible scrollbar-none">
+      <div className="flex gap-4 overflow-x-auto pb-4 md:pb-0 md:grid md:grid-cols-3 lg:grid-cols-5 md:overflow-visible scrollbar-hide">
         {products.map(product => (
           <div
             key={product.id}

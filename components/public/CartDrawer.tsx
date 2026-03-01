@@ -165,7 +165,6 @@ export default function CartDrawer() {
               href={whatsappURL}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={clearCart}
               data-hover
               className="w-full flex items-center justify-center gap-2 bg-[#c9a84c] hover:bg-[#f0d060] text-black text-xs uppercase tracking-widest font-semibold py-3 rounded-lg transition-all duration-200 active:scale-95"
             >
