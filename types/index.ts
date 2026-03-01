@@ -68,6 +68,33 @@ export interface CategoryFormData {
   is_active: boolean
 }
 
+// Order types
+export interface OrderItem {
+  product_id: string
+  name: string
+  size: string | null
+  qty: number
+  price: number
+}
+
+export interface Order {
+  id: string
+  user_id: string
+  user_email: string
+  full_name: string
+  phone: string
+  delivery_address: string
+  city: string | null
+  area: 'beirut' | 'outside'
+  delivery_fee: number
+  order_notes: string | null
+  items: OrderItem[]
+  subtotal: number
+  total: number
+  status: 'pending' | 'confirmed' | 'delivered' | 'cancelled'
+  created_at: string
+}
+
 // Dashboard stats
 export interface DashboardStats {
   total_products: number
