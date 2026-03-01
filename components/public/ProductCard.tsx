@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { formatPrice } from '@/lib/utils'
 import { useCart } from '@/lib/cart-context'
 import type { Product } from '@/types'
@@ -16,6 +16,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
   const [added, setAdded] = useState(false)
   const { addToCart, openCart } = useCart()
+  const addedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const hasSizes = product.sizes && product.sizes.length > 0
 
@@ -35,10 +36,17 @@ export default function ProductCard({ product }: ProductCardProps) {
   const handleAddToCart = () => {
     if (hasSizes && !selectedSize) return
     addToCart(product, selectedSize)
+    if (addedTimerRef.current) clearTimeout(addedTimerRef.current)
     setAdded(true)
     openCart()
-    setTimeout(() => setAdded(false), 1500)
+    addedTimerRef.current = setTimeout(() => setAdded(false), 1500)
   }
+
+  useEffect(() => {
+    return () => {
+      if (addedTimerRef.current) clearTimeout(addedTimerRef.current)
+    }
+  }, [])
 
   return (
     <div style={{ perspective: '1000px' }}>
