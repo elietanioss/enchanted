@@ -1,0 +1,77 @@
+'use client'
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
+import { User } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/client'
+import { isSupabaseMockMode } from '@/lib/mock-data'
+
+const MOCK_USER: User = {
+  id: 'mock-user-id',
+  email: 'test@enchanted.style',
+  user_metadata: { full_name: 'Test User', avatar_url: null },
+  app_metadata: {},
+  aud: 'authenticated',
+  created_at: new Date().toISOString(),
+} as User
+
+interface AuthContextType {
+  user: User | null
+  loading: boolean
+  signInWithGoogle: () => Promise<void>
+  signOut: () => Promise<void>
+  mockSignIn: () => void  // only used in mock mode
+}
+
+const AuthContext = createContext<AuthContextType | null>(null)
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (isSupabaseMockMode()) {
+      setLoading(false)
+      return
+    }
+
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user)
+      setLoading(false)
+    })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  const signInWithGoogle = async () => {
+    const supabase = createClient()
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
+    })
+  }
+
+  const signOut = async () => {
+    if (isSupabaseMockMode()) { setUser(null); return }
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    setUser(null)
+  }
+
+  const mockSignIn = () => setUser(MOCK_USER)
+
+  return (
+    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signOut, mockSignIn }}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
+
+export function useAuth() {
+  const ctx = useContext(AuthContext)
+  if (!ctx) throw new Error('useAuth must be used inside AuthProvider')
+  return ctx
+}

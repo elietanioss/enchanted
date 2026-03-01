@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useCart } from '@/lib/cart-context'
+import { useAuth } from '@/lib/auth-context'
 import { WHATSAPP_FLOAT_URL } from '@/lib/whatsapp'
 import Logo from '@/components/public/Logo'
 
@@ -16,6 +17,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const { totalItems, openCart } = useCart()
+  const { user, signOut } = useAuth()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
@@ -74,6 +76,43 @@ export default function Navbar() {
               </svg>
               WhatsApp
             </a>
+
+            {/* Auth UI */}
+            {user ? (
+              <div className="relative group hidden sm:block">
+                <button
+                  className="w-8 h-8 rounded-full bg-gold/20 border border-gold/40 flex items-center justify-center text-gold text-xs font-semibold hover:bg-gold/30 transition-colors"
+                  aria-label="Account menu"
+                  data-hover
+                >
+                  {user.user_metadata?.avatar_url ? (
+                    <img src={user.user_metadata.avatar_url} alt="" className="w-full h-full rounded-full object-cover" />
+                  ) : (
+                    <span>{(user.user_metadata?.full_name ?? user.email ?? 'U').charAt(0).toUpperCase()}</span>
+                  )}
+                </button>
+                {/* Dropdown */}
+                <div className="absolute right-0 top-10 w-44 bg-card border border-border rounded-xl shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-150 z-50">
+                  <a href="/orders" className="block px-4 py-3 text-sm text-foreground hover:text-gold hover:bg-foreground/5 rounded-t-xl transition-colors">
+                    My Orders
+                  </a>
+                  <button
+                    onClick={signOut}
+                    className="w-full text-left px-4 py-3 text-sm text-muted hover:text-red-500 hover:bg-red-50 rounded-b-xl transition-colors border-t border-border"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={openCart}
+                className="hidden sm:block text-muted hover:text-foreground text-xs uppercase tracking-widest transition-colors"
+                data-hover
+              >
+                Sign In
+              </button>
+            )}
 
             {/* Cart icon */}
             <button
