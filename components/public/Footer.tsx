@@ -96,7 +96,12 @@ export default function Footer() {
           <p className="text-subtle text-xs">
             &copy; {new Date().getFullYear()} Enchanted Style. All rights reserved.
           </p>
-          <p className="text-subtle text-xs">Lebanon&apos;s Premier Women&apos;s Fashion</p>
+          <div className="flex items-center gap-4">
+            <a href="/privacy" className="text-subtle hover:text-muted text-xs transition-colors">
+              Privacy Policy
+            </a>
+            <p className="text-subtle text-xs">Lebanon&apos;s Premier Women&apos;s Fashion</p>
+          </div>
         </div>
       </div>
     </footer>
