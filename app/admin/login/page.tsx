@@ -29,11 +29,11 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-obsidian flex items-center justify-center px-4">
+    <div className="min-h-screen bg-surface flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-10">
-          <img src="/logo.png" alt="Enchanted Style" className="h-12 w-auto object-contain mx-auto mb-4" />
+          <img src="/logo.svg" alt="Enchanted Style" className="h-12 w-auto object-contain mx-auto mb-4" />
           <h1 className="font-display text-3xl text-foreground">Admin Access</h1>
           <p className="text-muted text-sm mt-2">Sign in to manage your catalog</p>
         </div>

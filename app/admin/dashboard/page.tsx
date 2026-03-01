@@ -57,7 +57,7 @@ export default async function DashboardPage() {
 
       {/* Quick Actions */}
       <div className="flex gap-3 mb-10">
-        <a href="/admin/products/new" className="bg-gold hover:bg-gold-light text-obsidian text-sm font-semibold px-5 py-2.5 rounded-lg transition-all duration-200">
+        <a href="/admin/products/new" className="bg-gold hover:bg-gold-light text-black text-sm font-semibold px-5 py-2.5 rounded-lg transition-all duration-200">
           + Add Product
         </a>
         <a href="/admin/categories/new" className="bg-foreground/5 hover:bg-foreground/10 border border-border text-foreground text-sm px-5 py-2.5 rounded-lg transition-colors">
