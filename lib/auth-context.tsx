@@ -17,6 +17,8 @@ interface AuthContextType {
   user: User | null
   loading: boolean
   signInWithGoogle: () => Promise<void>
+  signInWithEmail: (email: string, password: string) => Promise<string | null>
+  signUpWithEmail: (email: string, password: string) => Promise<string | null>
   signOut: () => Promise<void>
   mockSignIn: () => void  // only used in mock mode
 }
@@ -54,6 +56,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
   }
 
+  const signInWithEmail = async (email: string, password: string): Promise<string | null> => {
+    const supabase = createClient()
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    return error ? error.message : null
+  }
+
+  const signUpWithEmail = async (email: string, password: string): Promise<string | null> => {
+    const supabase = createClient()
+    const { error } = await supabase.auth.signUp({ email, password })
+    return error ? error.message : null
+  }
+
   const signOut = async () => {
     if (isSupabaseMockMode()) { setUser(null); return }
     const supabase = createClient()
@@ -64,7 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const mockSignIn = () => setUser(MOCK_USER)
 
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signOut, mockSignIn }}>
+    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail, signOut, mockSignIn }}>
       {children}
     </AuthContext.Provider>
   )
