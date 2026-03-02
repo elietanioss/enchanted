@@ -79,7 +79,7 @@ export default function Navbar() {
 
             {/* Auth UI */}
             {user ? (
-              <div className="relative group hidden sm:block">
+              <div className="relative group hidden sm:block pb-2">
                 <button
                   className="w-8 h-8 rounded-full bg-gold/20 border border-gold/40 flex items-center justify-center text-gold text-xs font-semibold hover:bg-gold/30 transition-colors"
                   aria-label="Account menu"
