@@ -58,7 +58,13 @@ export default function AuthModal({ onClose }: AuthModalProps) {
       ? await signInWithEmail(email, password)
       : await signUpWithEmail(email, password)
     setLoading(false)
-    if (err) { setError(err) } else { onClose() }
+    if (err) {
+      setError(err)
+    } else if (mode === 'signin' && email.toLowerCase() === 'enchantedonline89@gmail.com') {
+      window.location.href = '/admin'
+    } else {
+      onClose()
+    }
   }
 
   if (isMock) {
