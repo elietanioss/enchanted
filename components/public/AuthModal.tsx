@@ -28,7 +28,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
       : await signUpWithEmail(email, password)
     setLoading(false)
     if (err) {
-      setError(err === 'Invalid login credentials' ? 'Incorrect email or password.' : err)
+      setError(err)
     } else {
       onClose()
     }
@@ -126,7 +126,7 @@ export default function AuthModal({ onClose }: AuthModalProps) {
         </button>
       </form>
 
-      {/* Toggle */}
+      {/* Toggle sign in / sign up */}
       <p className="text-center text-muted text-xs mt-4">
         {mode === 'signin' ? "Don't have an account? " : 'Already have an account? '}
         <button

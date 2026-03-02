@@ -632,9 +632,9 @@ export default function CartDrawer() {
         aria-hidden="true"
       />
 
-      {/* Drawer panel */}
+      {/* Drawer panel — full-width on mobile, capped at sm on larger screens */}
       <div
-        className={`fixed top-0 right-0 h-full w-full max-w-sm z-[70] bg-card border-l border-border flex flex-col transition-transform duration-300 ease-out ${
+        className={`fixed top-0 right-0 h-full w-full sm:max-w-sm z-[70] bg-card border-l border-border flex flex-col transition-transform duration-300 ease-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         role="dialog"

@@ -65,9 +65,10 @@ export default function ProductCard({ product }: ProductCardProps) {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Image section */}
+        {/* Image section — aspect-ratio based for consistent sizing across all screen widths */}
         <div
-          className={`relative h-64 overflow-hidden ${hasGallery ? 'cursor-zoom-in' : ''}`}
+          className={`relative overflow-hidden ${hasGallery ? 'cursor-zoom-in' : ''}`}
+          style={{ aspectRatio: '3/4' }}
           onClick={hasGallery ? () => setLightboxIndex(0) : undefined}
         >
           {!imgError && product.image_url ? (
@@ -112,15 +113,15 @@ export default function ProductCard({ product }: ProductCardProps) {
             {formatPrice(product.price)}
           </p>
 
-          {/* Size picker */}
+          {/* Size picker — min 44px touch target on mobile via padding */}
           {hasSizes && (
-            <div className="flex flex-wrap gap-1 mt-3">
+            <div className="flex flex-wrap gap-1.5 mt-3">
               {product.sizes!.map((size) => (
                 <button
                   key={size}
                   onClick={() => setSelectedSize(prev => prev === size ? null : size)}
                   data-hover
-                  className={`text-[10px] px-1.5 py-0.5 rounded uppercase tracking-wide border transition-all duration-150 ${
+                  className={`text-[10px] sm:text-[10px] px-2.5 py-1.5 sm:px-1.5 sm:py-0.5 min-h-[36px] sm:min-h-0 rounded uppercase tracking-wide border transition-all duration-150 touch-manipulation ${
                     selectedSize === size
                       ? 'bg-[#c9a84c] border-[#c9a84c] text-black font-semibold'
                       : 'text-muted border-border hover:border-[#c9a84c] hover:text-[#c9a84c]'
@@ -132,12 +133,12 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
 
-          {/* Add to Cart button */}
+          {/* Add to Cart button — minimum 44px height for touch targets */}
           <button
             onClick={handleAddToCart}
             disabled={hasSizes ? !selectedSize : false}
             data-hover
-            className={`mt-3 w-full flex items-center justify-center gap-2 text-xs uppercase tracking-widest font-semibold py-2.5 rounded-lg transition-all duration-200 active:scale-95 ${
+            className={`mt-3 w-full flex items-center justify-center gap-2 text-xs uppercase tracking-widest font-semibold py-3 sm:py-2.5 min-h-[44px] sm:min-h-0 rounded-lg transition-all duration-200 active:scale-95 touch-manipulation ${
               added
                 ? 'bg-green-600 text-white'
                 : hasSizes && !selectedSize

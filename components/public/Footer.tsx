@@ -4,7 +4,7 @@ import Logo from '@/components/public/Logo'
 export default function Footer() {
   return (
     <footer className="bg-surface border-t border-border">
-      <div className="max-w-7xl mx-auto px-4 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
           <div>
@@ -19,7 +19,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-hover
-                className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted hover:text-[#c9a84c] hover:border-[#c9a84c] transition-colors"
+                className="w-11 h-11 rounded-full border border-border flex items-center justify-center text-muted hover:text-[#c9a84c] hover:border-[#c9a84c] transition-colors touch-manipulation"
                 aria-label="Instagram"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -33,7 +33,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-hover
-                className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted hover:text-[#25D366] hover:border-[#25D366] transition-colors"
+                className="w-11 h-11 rounded-full border border-border flex items-center justify-center text-muted hover:text-[#25D366] hover:border-[#25D366] transition-colors touch-manipulation"
                 aria-label="WhatsApp"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">

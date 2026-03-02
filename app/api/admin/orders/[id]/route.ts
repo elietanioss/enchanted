@@ -4,6 +4,10 @@ import { isSupabaseMockMode } from '@/lib/mock-data'
 
 const VALID_STATUSES = ['pending', 'confirmed', 'delivered', 'cancelled']
 
+// The only email allowed to perform admin operations.
+// This acts as a second layer on top of Supabase session auth.
+const ADMIN_EMAIL = 'Enchantedonline89@gmail.com'
+
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -14,11 +18,16 @@ export async function PATCH(
     return NextResponse.json({ success: true })
   }
 
-  // Verify authenticated session
+  // Step 1: Verify authenticated session
   const authClient = await createClient()
   const { data: { user } } = await authClient.auth.getUser()
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  // Step 2: Verify the authenticated user is the admin
+  if (user.email?.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
   let body: { status?: string }
@@ -30,6 +39,11 @@ export async function PATCH(
 
   if (!body.status || !VALID_STATUSES.includes(body.status)) {
     return NextResponse.json({ error: 'Invalid status value' }, { status: 400 })
+  }
+
+  // Step 3: Validate id is a non-empty string (basic UUID shape check)
+  if (!id || typeof id !== 'string' || id.length > 64) {
+    return NextResponse.json({ error: 'Invalid order ID' }, { status: 400 })
   }
 
   const supabase = await createServiceClient()
