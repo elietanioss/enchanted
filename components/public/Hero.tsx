@@ -4,152 +4,129 @@ import { useEffect } from 'react'
 import gsap from 'gsap'
 
 export default function Hero() {
-  // ─── GSAP hero text reveal — cinematic stagger ────────────────────────────
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) {
-      // Skip animations — just show everything immediately
-      const els = document.querySelectorAll(
+      document.querySelectorAll(
         '.hero-eyebrow, .hero-title-main, .hero-title-accent, .hero-subtitle, .hero-cta'
-      )
-      els.forEach(el => (el as HTMLElement).style.opacity = '1')
+      ).forEach(el => ((el as HTMLElement).style.opacity = '1'))
       return
     }
 
-    const tl = gsap.timeline({ delay: 0.3 })
-
-    // Eyebrow line
-    tl.from('.hero-eyebrow', {
-      opacity: 0,
-      y: 24,
-      letterSpacing: '0.2em',
-      duration: 0.9,
-      ease: 'power3.out',
-    })
-
-    // "Enchanted" — large dramatic upward sweep
-    .from('.hero-title-main', {
-      opacity: 0,
-      y: 70,
-      skewX: 3,
-      duration: 1.1,
-      ease: 'power4.out',
-    }, '-=0.4')
-
-    // "Style" — italic gold word with scale punch
-    .from('.hero-title-accent', {
-      opacity: 0,
-      y: 55,
-      scale: 0.88,
-      duration: 1.0,
-      ease: 'power4.out',
-    }, '-=0.7')
-
-    // Subtitle
-    .from('.hero-subtitle', {
-      opacity: 0,
-      y: 22,
-      duration: 0.8,
-      ease: 'power2.out',
-    }, '-=0.5')
-
-    // CTA button
-    .from('.hero-cta', {
-      opacity: 0,
-      y: 20,
-      scale: 0.94,
-      duration: 0.7,
-      ease: 'back.out(1.4)',
-    }, '-=0.4')
+    const tl = gsap.timeline({ delay: 0.2 })
+    tl.from('.hero-eyebrow', { opacity: 0, y: 24, letterSpacing: '0.2em', duration: 0.9, ease: 'power3.out' })
+      .from('.hero-title-main', { opacity: 0, y: 70, skewX: 3, duration: 1.1, ease: 'power4.out' }, '-=0.4')
+      .from('.hero-title-accent', { opacity: 0, y: 55, scale: 0.88, duration: 1.0, ease: 'power4.out' }, '-=0.7')
+      .from('.hero-subtitle', { opacity: 0, y: 22, duration: 0.8, ease: 'power2.out' }, '-=0.5')
+      .from('.hero-cta', { opacity: 0, y: 20, scale: 0.94, duration: 0.7, ease: 'back.out(1.4)' }, '-=0.4')
   }, [])
+
+  const diamonds = [
+    { left: '8%',  top: '18%', size: 10, delay: '0s',    dur: '4s'  },
+    { left: '18%', top: '72%', size: 7,  delay: '-1.5s',  dur: '5s'  },
+    { left: '32%', top: '12%', size: 12, delay: '-3s',   dur: '6s'  },
+    { left: '48%', top: '82%', size: 8,  delay: '-0.8s',  dur: '4.5s'},
+    { left: '62%', top: '22%', size: 10, delay: '-4s',   dur: '5.5s'},
+    { left: '72%', top: '65%', size: 7,  delay: '-2s',   dur: '4s'  },
+    { left: '85%', top: '30%', size: 12, delay: '-5s',   dur: '6s'  },
+    { left: '92%', top: '75%', size: 8,  delay: '-1s',   dur: '5s'  },
+    { left: '25%', top: '45%', size: 6,  delay: '-6s',   dur: '4s'  },
+    { left: '55%', top: '50%', size: 9,  delay: '-3.5s', dur: '5.5s'},
+    { left: '78%', top: '48%', size: 6,  delay: '-2.5s', dur: '4.5s'},
+    { left: '42%', top: '35%', size: 11, delay: '-7s',   dur: '6s'  },
+  ]
+
+  const particles = [
+    { left: '10%', top: '25%', delay: '0s',    size: 5 },
+    { left: '22%', top: '60%', delay: '-2s',   size: 4 },
+    { left: '38%', top: '15%', delay: '-4s',   size: 6 },
+    { left: '52%', top: '70%', delay: '-1s',   size: 4 },
+    { left: '65%', top: '28%', delay: '-6s',   size: 5 },
+    { left: '80%', top: '55%', delay: '-3s',   size: 6 },
+    { left: '90%', top: '20%', delay: '-5s',   size: 4 },
+    { left: '15%', top: '85%', delay: '-7s',   size: 5 },
+    { left: '70%', top: '85%', delay: '-8s',   size: 4 },
+    { left: '45%', top: '42%', delay: '-9s',   size: 6 },
+    { left: '5%',  top: '50%', delay: '-1.5s', size: 5 },
+    { left: '58%', top: '8%',  delay: '-3.5s', size: 4 },
+  ]
 
   return (
     <section
-      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden"
-      style={{ background: 'linear-gradient(160deg, #faf9f7 0%, #f5f2ee 50%, #faf9f7 100%)' }}
+      className="relative w-full min-h-screen flex items-center justify-center"
+      style={{ background: 'linear-gradient(160deg, #faf9f7 0%, #f5f2ee 45%, #fdefd8 80%, #faf9f7 100%)' }}
     >
-      {/* ── Ambient breathing orbs ────────────────────────────────────────── */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+      {/* ── Brand ambient layer ─────────────────────────────────────────────── */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true" style={{ overflow: 'hidden' }}>
 
-        {/* Large orb — top-right */}
-        <div
-          className="hero-orb absolute rounded-full"
-          style={{
-            width: 'clamp(300px, 50vw, 700px)',
-            height: 'clamp(300px, 50vw, 700px)',
-            top: '-15%',
-            right: '-10%',
-            background: 'radial-gradient(circle, rgba(201,168,76,0.08) 0%, rgba(240,208,96,0.04) 50%, transparent 75%)',
-            animationName: 'orbBreath',
-            animationDuration: '8s',
-            animationTimingFunction: 'ease-in-out',
-            animationIterationCount: 'infinite',
-            animationDelay: '0s',
-          }}
-        />
+        {/* Orb 1 — top-right warm gold */}
+        <div className="hero-orb absolute rounded-full" style={{
+          width: 'clamp(380px, 55vw, 780px)',
+          height: 'clamp(380px, 55vw, 780px)',
+          top: '-20%', right: '-12%',
+          background: 'radial-gradient(circle, rgba(201,168,76,0.22) 0%, rgba(240,208,96,0.10) 45%, transparent 72%)',
+          filter: 'blur(40px)',
+          animationName: 'orbBreath',
+          animationDuration: '8s',
+          animationTimingFunction: 'ease-in-out',
+          animationIterationCount: 'infinite',
+          animationDelay: '0s',
+        }} />
 
-        {/* Medium orb — bottom-left */}
-        <div
-          className="hero-orb absolute rounded-full"
-          style={{
-            width: 'clamp(200px, 35vw, 500px)',
-            height: 'clamp(200px, 35vw, 500px)',
-            bottom: '-5%',
-            left: '-8%',
-            background: 'radial-gradient(circle, rgba(245,230,208,0.45) 0%, rgba(201,168,76,0.06) 50%, transparent 70%)',
-            animationName: 'orbBreath',
-            animationDuration: '10s',
-            animationTimingFunction: 'ease-in-out',
-            animationIterationCount: 'infinite',
-            animationDelay: '-3s',
-          }}
-        />
+        {/* Orb 2 — bottom-left warm rose-gold */}
+        <div className="hero-orb absolute rounded-full" style={{
+          width: 'clamp(280px, 40vw, 560px)',
+          height: 'clamp(280px, 40vw, 560px)',
+          bottom: '-8%', left: '-10%',
+          background: 'radial-gradient(circle, rgba(245,210,170,0.35) 0%, rgba(201,168,76,0.14) 50%, transparent 72%)',
+          filter: 'blur(50px)',
+          animationName: 'orbBreath',
+          animationDuration: '11s',
+          animationTimingFunction: 'ease-in-out',
+          animationIterationCount: 'infinite',
+          animationDelay: '-4s',
+        }} />
 
-        {/* Small orb — centre-left */}
-        <div
-          className="hero-orb absolute rounded-full"
-          style={{
-            width: 'clamp(120px, 20vw, 300px)',
-            height: 'clamp(120px, 20vw, 300px)',
-            top: '35%',
-            left: '8%',
-            background: 'radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%)',
-            animationName: 'orbBreath',
-            animationDuration: '12s',
-            animationTimingFunction: 'ease-in-out',
-            animationIterationCount: 'infinite',
-            animationDelay: '-5s',
-          }}
-        />
+        {/* Orb 3 — centre accent */}
+        <div className="hero-orb absolute rounded-full" style={{
+          width: 'clamp(160px, 24vw, 360px)',
+          height: 'clamp(160px, 24vw, 360px)',
+          top: '30%', left: '5%',
+          background: 'radial-gradient(circle, rgba(201,168,76,0.16) 0%, transparent 68%)',
+          filter: 'blur(30px)',
+          animationName: 'orbBreath',
+          animationDuration: '13s',
+          animationTimingFunction: 'ease-in-out',
+          animationIterationCount: 'infinite',
+          animationDelay: '-6s',
+        }} />
 
-        {/* Shimmer lines */}
-        <div className="hero-shimmer-line absolute" style={{ top: '18%', animationDelay: '0s' }} />
-        <div className="hero-shimmer-line absolute" style={{ top: '48%', animationDelay: '-4s' }} />
-        <div className="hero-shimmer-line absolute" style={{ top: '72%', animationDelay: '-8s' }} />
+        {/* Diagonal silk light sweeps */}
+        <div className="hero-silk-sweep absolute" style={{ top: '-10%', animationDelay: '0s' }} />
+        <div className="hero-silk-sweep absolute" style={{ top: '35%',  animationDelay: '-8s' }} />
+        <div className="hero-silk-sweep absolute" style={{ top: '70%',  animationDelay: '-16s' }} />
+
+        {/* Diamond sparkles */}
+        {diamonds.map((d, i) => (
+          <div
+            key={i}
+            className="hero-diamond absolute"
+            style={{
+              left: d.left,
+              top: d.top,
+              width: d.size,
+              height: d.size,
+              animationName: 'diamondSparkle',
+              animationDuration: d.dur,
+              animationTimingFunction: 'ease-in-out',
+              animationIterationCount: 'infinite',
+              animationDelay: d.delay,
+            }}
+          />
+        ))}
 
         {/* Gold dust particles */}
-        {[
-          { left: '12%',  top: '20%', delay: '0s',   size: 3 },
-          { left: '28%',  top: '65%', delay: '-2s',  size: 2 },
-          { left: '45%',  top: '15%', delay: '-4s',  size: 4 },
-          { left: '58%',  top: '72%', delay: '-1s',  size: 2 },
-          { left: '70%',  top: '30%', delay: '-6s',  size: 3 },
-          { left: '82%',  top: '55%', delay: '-3s',  size: 4 },
-          { left: '90%',  top: '80%', delay: '-7s',  size: 2 },
-          { left: '35%',  top: '88%', delay: '-5s',  size: 3 },
-          { left: '8%',   top: '50%', delay: '-1.5s',size: 2 },
-          { left: '62%',  top: '10%', delay: '-8s',  size: 3 },
-          { left: '78%',  top: '18%', delay: '-2.5s',size: 2 },
-          { left: '22%',  top: '42%', delay: '-9s',  size: 4 },
-          { left: '50%',  top: '58%', delay: '-3.5s',size: 2 },
-          { left: '88%',  top: '38%', delay: '-6.5s',size: 3 },
-          { left: '16%',  top: '78%', delay: '-4.5s',size: 2 },
-          { left: '40%',  top: '32%', delay: '-7.5s',size: 3 },
-          { left: '67%',  top: '92%', delay: '-0.5s',size: 2 },
-          { left: '95%',  top: '62%', delay: '-5.5s',size: 4 },
-          { left: '3%',   top: '88%', delay: '-11s', size: 2 },
-          { left: '55%',  top: '45%', delay: '-10s', size: 3 },
-        ].map((p, i) => (
+        {particles.map((p, i) => (
           <div
             key={i}
             className="hero-particle absolute rounded-full"
@@ -158,47 +135,52 @@ export default function Hero() {
               top: p.top,
               width: p.size,
               height: p.size,
-              background: `rgba(201, 168, 76, ${0.35 + (i % 3) * 0.15})`,
+              background: `rgba(201,168,76,${0.55 + (i % 3) * 0.15})`,
+              boxShadow: `0 0 ${p.size * 2}px rgba(201,168,76,0.4)`,
               animationName: 'particleDrift',
-              animationDuration: `${12 + (i % 5) * 3}s`,
+              animationDuration: `${11 + (i % 5) * 3}s`,
               animationTimingFunction: 'ease-in-out',
               animationIterationCount: 'infinite',
-              animationDelay: p.delay,
+              animationDelay: `${-i * 0.9}s`,
             }}
           />
         ))}
       </div>
 
-      {/* ── Very subtle bottom gradient to blend into content below ─────── */}
+      {/* Bottom fade into page */}
       <div
-        className="absolute bottom-0 inset-x-0 h-32 pointer-events-none"
-        style={{
-          background: 'linear-gradient(to bottom, transparent, rgba(250,249,247,0.8))',
-        }}
+        className="absolute bottom-0 inset-x-0 h-40 pointer-events-none"
+        style={{ background: 'linear-gradient(to bottom, transparent, rgba(250,249,247,0.9))' }}
         aria-hidden="true"
       />
 
-      {/* ── Hero content ──────────────────────────────────────────────────── */}
+      {/* ── Hero content ─────────────────────────────────────────────────────── */}
       <div className="relative z-10 text-center px-4 sm:px-6 max-w-4xl mx-auto select-none pt-16 sm:pt-0">
 
         {/* Eyebrow */}
-        <p className="hero-eyebrow inline-block text-[#c9a84c] text-[10px] sm:text-xs tracking-[0.4em] sm:tracking-[0.45em] uppercase mb-6 sm:mb-8 font-semibold">
+        <p className="hero-eyebrow inline-flex items-center gap-3 text-[10px] sm:text-xs tracking-[0.45em] uppercase mb-6 sm:mb-8 font-semibold"
+          style={{ color: '#c9a84c' }}>
+          <span className="w-6 h-px bg-gold/60" />
           Lebanon&apos;s Premier Fashion Destination
+          <span className="w-6 h-px bg-gold/60" />
         </p>
 
         {/* Main title */}
-        <h1 className="font-display leading-[0.88] mb-6 sm:mb-8">
+        <h1 className="font-display leading-[0.9] mb-6 sm:mb-8">
           <span className="hero-title-main block text-[clamp(3.5rem,12vw,10rem)] text-foreground">
             Enchanted
           </span>
+          {/* paddingBottom fixes the italic "y" descender clipping with gradient text */}
           <span
             className="hero-title-accent block text-[clamp(3.5rem,12vw,10rem)] italic"
             style={{
-              background: 'linear-gradient(135deg, #c9a84c 0%, #f0d060 40%, #c9a84c 100%)',
+              paddingBottom: '0.15em',
+              background: 'linear-gradient(135deg, #9a7a35 0%, #c9a84c 30%, #f0d060 55%, #c9a84c 80%, #9a7a35 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              filter: 'drop-shadow(0 2px 12px rgba(201,168,76,0.25))',
+              filter: 'drop-shadow(0 2px 16px rgba(201,168,76,0.35))',
+              display: 'block',
             }}
           >
             Style
@@ -214,20 +196,20 @@ export default function Hero() {
         <a
           href="#catalog"
           data-hover
-          className="hero-cta inline-flex items-center gap-3 text-black text-xs sm:text-sm uppercase tracking-[0.2em] font-bold px-10 sm:px-12 py-4 rounded-full transition-all duration-300"
+          className="hero-cta inline-flex items-center gap-3 text-black text-xs sm:text-sm uppercase tracking-[0.22em] font-bold px-10 sm:px-14 py-4 rounded-full transition-all duration-300"
           style={{
-            background: 'linear-gradient(135deg, #c9a84c, #f0d060, #c9a84c)',
+            background: 'linear-gradient(135deg, #c9a84c 0%, #f0d060 50%, #c9a84c 100%)',
             backgroundSize: '200% 100%',
-            boxShadow: '0 4px 20px rgba(201,168,76,0.3), 0 1px 4px rgba(201,168,76,0.2)',
+            boxShadow: '0 4px 24px rgba(201,168,76,0.35), 0 1px 4px rgba(201,168,76,0.2)',
           }}
           onMouseEnter={e => {
             const el = e.currentTarget as HTMLAnchorElement
-            el.style.boxShadow = '0 6px 30px rgba(201,168,76,0.45), 0 2px 8px rgba(201,168,76,0.25)'
-            el.style.transform = 'scale(1.05) translateY(-1px)'
+            el.style.boxShadow = '0 8px 36px rgba(201,168,76,0.5), 0 2px 8px rgba(201,168,76,0.3)'
+            el.style.transform = 'scale(1.05) translateY(-2px)'
           }}
           onMouseLeave={e => {
             const el = e.currentTarget as HTMLAnchorElement
-            el.style.boxShadow = '0 4px 20px rgba(201,168,76,0.3), 0 1px 4px rgba(201,168,76,0.2)'
+            el.style.boxShadow = '0 4px 24px rgba(201,168,76,0.35), 0 1px 4px rgba(201,168,76,0.2)'
             el.style.transform = 'scale(1) translateY(0)'
           }}
         >
@@ -238,12 +220,9 @@ export default function Hero() {
         </a>
       </div>
 
-      {/* ── Scroll indicator ─────────────────────────────────────────────── */}
+      {/* ── Scroll indicator ─────────────────────────────────────────────────── */}
       <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
-        <span
-          className="text-[10px] tracking-[0.35em] uppercase"
-          style={{ color: 'rgba(107,107,107,0.5)' }}
-        >
+        <span className="text-[10px] tracking-[0.35em] uppercase" style={{ color: 'rgba(107,107,107,0.6)' }}>
           Scroll
         </span>
         <div className="w-px h-10 overflow-hidden relative">
@@ -255,29 +234,52 @@ export default function Hero() {
             }}
           />
         </div>
-
-        <style>{`
-          @keyframes scrollLine {
-            0%   { transform: translateY(-100%); opacity: 1; }
-            100% { transform: translateY(100%);  opacity: 0; }
-          }
-          @keyframes orbBreath {
-            0%, 100% { transform: scale(1);    opacity: 1; }
-            50%       { transform: scale(1.08); opacity: 0.75; }
-          }
-          @keyframes particleDrift {
-            0%   { transform: translateY(0px)   translateX(0px);   opacity: 0; }
-            10%  { opacity: 1; }
-            85%  { opacity: 0.8; }
-            100% { transform: translateY(-120px) translateX(20px); opacity: 0; }
-          }
-          @media (prefers-reduced-motion: reduce) {
-            .hero-orb, .hero-shimmer-line, .hero-particle {
-              animation: none !important;
-            }
-          }
-        `}</style>
       </div>
+
+      {/* ── Keyframes ────────────────────────────────────────────────────────── */}
+      <style>{`
+        @keyframes scrollLine {
+          0%   { transform: translateY(-100%); opacity: 1; }
+          100% { transform: translateY(100%);  opacity: 0; }
+        }
+        @keyframes silkSweep {
+          0%   { transform: translateX(-100%) skewX(-12deg); opacity: 0; }
+          8%   { opacity: 1; }
+          92%  { opacity: 0.7; }
+          100% { transform: translateX(110vw) skewX(-12deg); opacity: 0; }
+        }
+        .hero-silk-sweep {
+          left: 0;
+          width: 120px;
+          height: 100vh;
+          background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(201,168,76,0.07) 30%,
+            rgba(240,208,96,0.18) 50%,
+            rgba(201,168,76,0.07) 70%,
+            transparent 100%
+          );
+          animation: silkSweep 18s ease-in-out infinite;
+          pointer-events: none;
+        }
+        @keyframes diamondSparkle {
+          0%, 100% { transform: rotate(45deg) scale(0);   opacity: 0; }
+          20%       { transform: rotate(45deg) scale(1.2); opacity: 0.9; }
+          40%       { transform: rotate(45deg) scale(0.8); opacity: 0.6; }
+          60%       { transform: rotate(45deg) scale(1);   opacity: 0.8; }
+          80%       { transform: rotate(45deg) scale(0.3); opacity: 0.2; }
+        }
+        .hero-diamond {
+          background: linear-gradient(135deg, #f0d060, #c9a84c);
+          box-shadow: 0 0 8px rgba(201,168,76,0.6), 0 0 20px rgba(201,168,76,0.25);
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-orb, .hero-silk-sweep, .hero-diamond, .hero-particle {
+            animation: none !important;
+            opacity: 0.4;
+          }
+        }
+      `}</style>
     </section>
   )
 }
