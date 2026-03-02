@@ -19,6 +19,7 @@ interface AuthContextType {
   signInWithGoogle: () => Promise<void>
   signInWithEmail: (email: string, password: string) => Promise<string | null>
   signUpWithEmail: (email: string, password: string) => Promise<string | null>
+  resetPassword: (email: string) => Promise<string | null>
   signOut: () => Promise<void>
   mockSignIn: () => void  // only used in mock mode
 }
@@ -68,6 +69,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return error ? error.message : null
   }
 
+  const resetPassword = async (email: string): Promise<string | null> => {
+    const supabase = createClient()
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/reset-password`,
+    })
+    return error ? error.message : null
+  }
+
   const signOut = async () => {
     if (isSupabaseMockMode()) { setUser(null); return }
     const supabase = createClient()
@@ -78,7 +87,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const mockSignIn = () => setUser(MOCK_USER)
 
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail, signOut, mockSignIn }}>
+    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail, resetPassword, signOut, mockSignIn }}>
       {children}
     </AuthContext.Provider>
   )
