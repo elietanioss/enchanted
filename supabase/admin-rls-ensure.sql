@@ -78,11 +78,10 @@ CREATE POLICY "products_admin_delete" ON products
 DROP POLICY IF EXISTS "logs_admin_select" ON admin_logs;
 DROP POLICY IF EXISTS "logs_admin_insert" ON admin_logs;
 
--- Any authenticated user can read audit logs (harmless)
+-- Only the admin email can read or write audit log entries
 CREATE POLICY "logs_admin_select" ON admin_logs
-  FOR SELECT USING (auth.uid() IS NOT NULL);
+  FOR SELECT USING (LOWER(auth.email()) = 'enchantedonline89@gmail.com');
 
--- Only the admin email can write audit log entries
 CREATE POLICY "logs_admin_insert" ON admin_logs
   FOR INSERT WITH CHECK (LOWER(auth.email()) = 'enchantedonline89@gmail.com');
 
