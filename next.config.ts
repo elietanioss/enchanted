@@ -49,7 +49,7 @@ const securityHeaders = [
       // unsafe-inline required by Tailwind v4 CSS-in-JS runtime approach
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
-      "img-src 'self' data: blob: https://images.unsplash.com https://*.supabase.co https://supabase.co",
+      "img-src 'self' data: blob: https://images.unsplash.com https://*.supabase.co https://supabase.co https://lh3.googleusercontent.com",
       // connect-src covers Supabase REST + Auth + Realtime WebSocket
       "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://wa.me https://accounts.google.com https://oauth2.googleapis.com https://www.googleapis.com",
       "media-src 'self'",
