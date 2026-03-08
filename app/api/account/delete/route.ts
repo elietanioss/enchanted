@@ -28,9 +28,10 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: 'Too many requests. Try again later.' }, { status: 429 })
   }
 
-  // Verify authenticated session
+  // Verify authenticated session (getSession validates JWT locally — no extra network roundtrip)
   const supabase = await createClient()
-  const { data: { user }, error: authError } = await supabase.auth.getUser()
+  const { data: { session }, error: authError } = await supabase.auth.getSession()
+  const user = session?.user ?? null
   if (authError || !user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
