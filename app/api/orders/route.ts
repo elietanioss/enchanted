@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServiceClient } from '@/lib/supabase/server'
+import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { isSupabaseMockMode } from '@/lib/mock-data'
 
 // ─── Rate limiting (in-memory, per server instance) ──────────────────────────
@@ -98,6 +98,12 @@ function validateOrderBody(body: Record<string, unknown>): ValidationError[] {
   const deliveryFee = Number(body.delivery_fee)
   if (!Number.isFinite(deliveryFee) || !VALID_DELIVERY_FEES.includes(deliveryFee)) {
     errors.push({ field: 'delivery_fee', message: 'Delivery fee must be $3 (Beirut) or $4 (outside)' })
+  } else if (typeof body.area === 'string' && VALID_AREAS.includes(body.area)) {
+    // Cross-validate: fee must match the selected area to prevent fee manipulation
+    const expectedFee = body.area === 'beirut' ? 3 : 4
+    if (deliveryFee !== expectedFee) {
+      errors.push({ field: 'delivery_fee', message: `Delivery fee for ${body.area === 'beirut' ? 'Beirut' : 'outside Beirut'} must be $${expectedFee}` })
+    }
   }
 
   // items
@@ -149,13 +155,6 @@ function validateOrderBody(body: Record<string, unknown>): ValidationError[] {
     }
   }
 
-  // user_id — must be a non-empty string when present (guest orders may omit)
-  if (body.user_id !== undefined && body.user_id !== null) {
-    if (typeof body.user_id !== 'string' || body.user_id.length > 64) {
-      errors.push({ field: 'user_id', message: 'user_id is invalid' })
-    }
-  }
-
   return errors
 }
 
@@ -198,6 +197,13 @@ export async function POST(request: NextRequest) {
     )
   }
 
+  // Extract user_id from the authenticated session (not from the request body).
+  // createServiceClient() bypasses RLS, so we must resolve the real user ourselves
+  // to prevent callers from associating orders with arbitrary account IDs.
+  const userClient = await createClient()
+  const { data: { user: sessionUser } } = await userClient.auth.getUser()
+  const authenticatedUserId = sessionUser?.id ?? null
+
   // In mock mode, return a fake order ID
   if (isSupabaseMockMode()) {
     return NextResponse.json({ id: 'mock-order-' + Date.now() })
@@ -216,7 +222,7 @@ export async function POST(request: NextRequest) {
     const { data, error } = await supabase
       .from('orders')
       .insert({
-        user_id: body.user_id ?? null,
+        user_id: authenticatedUserId,
         user_email: String(body.user_email).trim().toLowerCase(),
         full_name: String(body.full_name).trim(),
         phone: String(body.phone).trim(),
