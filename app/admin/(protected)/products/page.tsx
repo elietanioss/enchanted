@@ -14,8 +14,8 @@ export default async function ProductsPage() {
     .order('created_at', { ascending: false })
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-8">
+    <div className="p-4 sm:p-8">
+      <div className="flex items-center justify-between gap-3 flex-wrap mb-8">
         <div>
           <h1 className="font-display text-3xl text-foreground">Products</h1>
           <p className="text-muted text-sm mt-1">{products?.length ?? 0} total products</p>
@@ -26,7 +26,8 @@ export default async function ProductsPage() {
       </div>
 
       <div className="bg-surface border border-border rounded-xl overflow-hidden">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm min-w-[640px]">
           <thead className="border-b border-border">
             <tr>
               {['Product', 'Category', 'Price', 'Status', 'Created', 'Actions'].map(h => (
@@ -71,6 +72,7 @@ export default async function ProductsPage() {
         {(!products || products.length === 0) && (
           <p className="text-center text-muted py-16">No products yet. <a href="/admin/products/new" className="text-gold hover:underline">Add your first product →</a></p>
         )}
+        </div>
       </div>
     </div>
   )

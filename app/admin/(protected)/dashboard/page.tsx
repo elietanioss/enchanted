@@ -64,7 +64,7 @@ export default async function DashboardPage() {
   ]
 
   return (
-    <div className="p-8 space-y-10">
+    <div className="p-4 sm:p-8 space-y-10">
 
       {/* ── Header ─────────────────────────────────────────────── */}
       <div className="flex items-start justify-between">
@@ -80,7 +80,7 @@ export default async function DashboardPage() {
       {/* ── Catalog inventory ───────────────────────────────────── */}
       <section>
         <h2 className="text-xs uppercase tracking-widest text-muted mb-3">Catalog</h2>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {inventoryCards.map(s => (
             <Stat key={s.label} label={s.label} value={s.value} color={s.color} />
           ))}
@@ -104,7 +104,7 @@ export default async function DashboardPage() {
           {/* ── Revenue cards ───────────────────────────────────── */}
           <section>
             <h2 className="text-xs uppercase tracking-widest text-muted mb-3">Revenue</h2>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <Stat label="Total Revenue"   value={fmt(a.total_revenue)}      color="text-gold" />
               <Stat label="This Month"      value={fmt(a.revenue_this_month)} color="text-foreground"
                 sub={a.orders_this_month + ' orders'} />

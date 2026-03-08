@@ -37,7 +37,7 @@ export default async function AdminOrderDetailPage({ params }: { params: Promise
   }
 
   return (
-    <div className="p-8 max-w-2xl">
+    <div className="p-4 sm:p-8 max-w-2xl">
       <div className="mb-6 flex items-center gap-4">
         <a href="/admin/orders" className="text-muted hover:text-foreground text-sm transition-colors">
           ← Orders

@@ -53,7 +53,7 @@ export default async function AdminOrdersPage() {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-8">
       <div className="mb-8">
         <h1 className="font-display text-3xl text-foreground">Orders</h1>
         <p className="text-muted text-sm mt-1">{orders.length} total order{orders.length !== 1 ? 's' : ''}</p>
@@ -65,7 +65,8 @@ export default async function AdminOrdersPage() {
         </div>
       ) : (
         <div className="bg-surface border border-border rounded-xl overflow-hidden">
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[480px]">
             <thead>
               <tr className="border-b border-border">
                 <th className="text-left px-4 py-3 text-muted text-xs font-medium uppercase tracking-wider">Order</th>
@@ -109,6 +110,7 @@ export default async function AdminOrdersPage() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>

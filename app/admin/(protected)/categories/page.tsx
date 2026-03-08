@@ -10,7 +10,7 @@ export default async function CategoriesPage() {
   const { data: categories } = await supabase.from('categories').select('*').order('sort_order')
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-8">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="font-display text-3xl text-foreground">Categories</h1>
