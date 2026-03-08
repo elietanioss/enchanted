@@ -24,25 +24,13 @@ const items = [
     sub: 'Order help & live tracking',
     href: WHATSAPP_FLOAT_URL,
   },
-  {
-    icon: (
-      <svg className="w-5 h-5 text-gold flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3" />
-        <rect x="9" y="11" width="14" height="10" rx="2" />
-        <circle cx="12" cy="21" r="1" />
-        <circle cx="20" cy="21" r="1" />
-      </svg>
-    ),
-    label: 'Free Delivery over $120',
-    sub: 'Beirut $3 · Outside Beirut $4',
-  },
 ]
 
 export default function TrustBar() {
   return (
     <div className="bg-surface border-y border-border py-5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {items.map(item => {
             const inner = (
               <div key={item.label} className="flex items-center justify-center sm:justify-start gap-3">
