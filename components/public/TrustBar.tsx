@@ -30,10 +30,10 @@ export default function TrustBar() {
   return (
     <div className="bg-surface border-y border-border py-5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 max-w-lg mx-auto">
           {items.map(item => {
             const inner = (
-              <div key={item.label} className="flex items-center justify-center sm:justify-start gap-3">
+              <div key={item.label} className="flex items-center justify-center gap-3">
                 {item.icon}
                 <div>
                   <p className="text-foreground text-xs font-semibold tracking-wide">{item.label}</p>
